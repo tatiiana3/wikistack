@@ -6,15 +6,23 @@ const app = express();
 const {db} = require('./models');
 
 
+
 db.authenticate().
 then(() => {
   console.log('connected to the database');
 })
 
+
 app.use(express.static(__dirname + "/stylesheets"));
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
+
+const syncdb = async () => {
+    await db.sync({ force: true });
+}
+
+ syncdb();
 
 const PORT = 3000;
 
